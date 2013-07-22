@@ -1,0 +1,46 @@
+# -*- Mode: python; py-indent-offset: 4; indent-tabs-mode: nil; coding: utf-8; -*-
+
+# def options(opt):
+#     pass
+
+# def configure(conf):
+#     conf.check_nonfatal(header_name='stdint.h', define_name='HAVE_STDINT_H')
+
+def build(bld):
+    module = bld.create_ns3_module('IPCope', ['network', 'internet'])
+    module.source = [
+		'model/IPCope-header.cc',
+		'model/IPCope-hash.cc',
+		'model/IPCope-neighbor.cc',
+		'model/IPCope-queue.cc',
+		'model/IPCope-packet-info.cc',
+		'model/IPCope-protocol.cc',
+		'model/IPCope-packet-pool.cc',
+		'model/IPCope-device.cc',
+		'helper/IPCope-helper.cc',
+        ]
+
+    module_test = bld.create_ns3_module_test_library('IPCope')
+    module_test.source = [
+        'test/IPCope-test-suite.cc',
+        ]
+
+    headers = bld.new_task_gen(features=['ns3header'])
+    headers.module = 'IPCope'
+    headers.source = [
+		'model/IPCope-header.h',
+		'model/IPCope-hash.h',
+		'model/IPCope-neighbor.h',
+		'model/IPCope-queue.h',
+		'model/IPCope-packet-info.h',
+		'model/IPCope-protocol.h',
+		'model/IPCope-packet-pool.h',
+		'model/IPCope-device.h',
+		'helper/IPCope-helper.h',
+        ]
+
+    if bld.env.ENABLE_EXAMPLES:
+        bld.add_subdirs('examples')
+
+    # bld.ns3_python_bindings()
+
